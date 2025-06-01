@@ -157,7 +157,8 @@ struct ChainMap : ChainMap<Maps...> {
 
     Map& get_map(size_t i) { return i ? B::get_map(i - 1) : map; }
 
-    ChainMap<Map, Map, Maps...> new_child(Map& new_map) {
+    template<class NewMap>
+    ChainMap<NewMap, Map, Maps...> new_child(NewMap& new_map) {
         return {new_map, *this};
     }
 
@@ -203,7 +204,8 @@ struct ChainMap<Map> {
         return map;
     }
 
-    ChainMap<Map, Map> new_child(Map& new_map) { return {new_map, map}; }
+    template<class NewMap>
+    ChainMap<NewMap, Map> new_child(NewMap& new_map) { return {new_map, map}; }
 
     const V& at(const K& k) const { return map.at(k); }
 
